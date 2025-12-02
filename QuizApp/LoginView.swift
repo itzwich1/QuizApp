@@ -71,7 +71,7 @@ struct LoginView: View {
                         }
                         .padding()
                         .frame(maxWidth: .infinity) // Button über die gesamte Breite der Felder
-                        .background(Color.green)
+                        .background(Color.blue)
                         .foregroundColor(.white)
                         .cornerRadius(10)
                         
