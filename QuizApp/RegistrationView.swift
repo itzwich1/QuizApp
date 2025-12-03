@@ -14,9 +14,46 @@ struct RegistrationView: View {
     @Binding var currentScreen: AppScreen
     
     
+    @State private var username: String = ""
+    @State private var password: String = ""
+    
     var body: some View {
         
-        
+        VStack{
+            // Eingabefeld für Benutzername
+            TextField("Benutzername", text: $username)
+                .padding()
+                .frame(maxWidth: 380)
+                .background(Color.white.opacity(0.8)) // Leicht transparenter Hintergrund
+                .cornerRadius(8)
+            
+            // Eingabefeld für Passwort (verdeckt die Eingabe)
+            SecureField("Passwort", text: $password)
+                .padding()
+                .frame(maxWidth: 380)
+                .background(Color.white.opacity(0.8))
+                .cornerRadius(8)
+            
+            // Anmelde-Button
+            Button("Registrieren") {
+                // TODO: Hier die tatsächliche Anmelde-Logik einfügen
+                print("Anmelden mit Benutzername: \(username) und Passwort: \(password)")
+            }
+            .padding()
+            .frame(maxWidth: 380) // Button über die gesamte Breite der Felder
+            .background(Color.blue)
+            .foregroundColor(.white)
+            .cornerRadius(10)
+            
+            
+            Button("Zurück") {
+                withAnimation {
+                    currentScreen = .home
+                }
+            }
+            .foregroundColor(.white)
+            .padding(.top, 5)
+        }
         
         
         
