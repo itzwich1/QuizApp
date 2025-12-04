@@ -10,12 +10,17 @@ import SwiftData
 
 struct RegistrationView: View {
     
+    @Environment(\.modelContext) var modelContext // Zugriff auf SwiftData
+    
     // Bindung zum zentralen Zustand, um den Screen zu wechseln
     @Binding var currentScreen: AppScreen
     
     
     @State private var username: String = ""
     @State private var password: String = ""
+    @State private var registrationMessage = ""
+    
+    @StateObject private var authService = AuthService()
     
     var body: some View {
         
@@ -24,7 +29,8 @@ struct RegistrationView: View {
             TextField("Benutzername", text: $username)
                 .padding()
                 .frame(maxWidth: 380)
-                .background(Color.white.opacity(0.8)) // Leicht transparenter Hintergrund
+                .background(Color.white.opacity(0.8))
+                .foregroundColor(Color.black)
                 .cornerRadius(8)
             
             // Eingabefeld für Passwort (verdeckt die Eingabe)
@@ -36,27 +42,48 @@ struct RegistrationView: View {
             
             // Anmelde-Button
             Button("Registrieren") {
-                // TODO: Hier die tatsächliche Anmelde-Logik einfügen
-                print("Anmelden mit Benutzername: \(username) und Passwort: \(password)")
-            }
-            .padding()
-            .frame(maxWidth: 380) // Button über die gesamte Breite der Felder
-            .background(Color.blue)
-            .foregroundColor(.white)
-            .cornerRadius(10)
-            
-            
-            Button("Zurück") {
-                withAnimation {
-                    currentScreen = .home
+                
+                authService.printDataStorePath()
+                
+                if(!username.isEmpty && !password.isEmpty){
+                    if authService.registerUser(username: username, passwordText: password, context: modelContext){
+                        
+                        registrationMessage = "Registrierung erfolgreich"
+                        
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5){
+                            withAnimation{currentScreen = .login}
+                        }
+                    }else {
+                        registrationMessage = "Fehler bei der Registrierung. Benutzername vielleicht vergeben."
+                    }
+                    
+                }else {
+                    registrationMessage = "Error: Benutzername und Passwort \n dürfen nicht leer sein!"
                 }
+                
+
+                
             }
-            .foregroundColor(.white)
-            .padding(.top, 5)
+            
         }
+        .padding()
+        .frame(maxWidth: 380) // Button über die gesamte Breite der Felder
+        .background(Color.blue)
+        .foregroundColor(.white)
+        .cornerRadius(10)
         
         
+        Text(registrationMessage)
+                        .foregroundColor(registrationMessage.contains("Error") ? .red : .green)
         
+        Button("Zurück") {
+            withAnimation {
+                currentScreen = .home
+            }
+        }
+        .foregroundColor(.white)
+        .padding(.top, 5)
     }
-    
 }
+
+
