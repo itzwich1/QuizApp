@@ -11,7 +11,7 @@ import SwiftData
 
 
 struct LoginView: View {
-    // Bindung zum zentralen Zustand, um den Screen zu wechseln
+    @Environment(\.modelContext) var modelContext
     @Binding var currentScreen: AppScreen
     
     
@@ -19,6 +19,9 @@ struct LoginView: View {
     // Variablen für die Eingabefelder
     @State private var username: String = ""
     @State private var password: String = ""
+    @State private var loginMessage = ""
+    
+    @StateObject private var authService = AuthService()
     
     var body: some View {
         
@@ -39,8 +42,19 @@ struct LoginView: View {
             
             // Anmelde-Button
             Button("Anmelden") {
-                // TODO: Hier die tatsächliche Anmelde-Logik einfügen
-                print("Anmelden mit Benutzername: \(username) und Passwort: \(password)")
+                
+                if authService.verifyLogin(username: username, passwordText: password, context: modelContext) {
+                    loginMessage = "Login erfolgreich! Weiterleitung..."
+                    
+                    // Bei Erfolg: Weiter zur Haupt-App-Seite
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        withAnimation{currentScreen = .dashboard}
+                    }
+                } else {
+                    loginMessage = "Anmeldedaten falsch. Bitte erneut versuchen."
+                }
+                
+                
             }
             .padding()
             .frame(maxWidth: 380) // Button über die gesamte Breite der Felder
@@ -58,7 +72,7 @@ struct LoginView: View {
             .padding(.top, 5)
         }
         
-
+        
         
         
     }

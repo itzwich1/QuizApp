@@ -43,8 +43,6 @@ struct RegistrationView: View {
             // Anmelde-Button
             Button("Registrieren") {
                 
-                authService.printDataStorePath()
-                
                 if(!username.isEmpty && !password.isEmpty){
                     if authService.registerUser(username: username, passwordText: password, context: modelContext){
                         
@@ -64,13 +62,13 @@ struct RegistrationView: View {
 
                 
             }
-            
+            .padding()
+            .frame(maxWidth: 380) // Button über die gesamte Breite der Felder
+            .background(Color.blue)
+            .foregroundColor(.white)
+            .cornerRadius(10)
         }
-        .padding()
-        .frame(maxWidth: 380) // Button über die gesamte Breite der Felder
-        .background(Color.blue)
-        .foregroundColor(.white)
-        .cornerRadius(10)
+        
         
         
         Text(registrationMessage)
