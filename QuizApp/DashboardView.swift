@@ -14,9 +14,17 @@ struct DashboardView: View {
     
     var body: some View {
         
-        HStack(spacing: 15){
+        VStack{
             
             
+            
+            ScoreView(correctCount: 10, wrongCount: 4).padding(.bottom,40)
+            
+            Spacer()
+            
+            // Ihre Buttons...
+            Button("Quiz Starten") { /* ... */ }
+                .padding()
             
         }
         
