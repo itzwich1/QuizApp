@@ -48,6 +48,7 @@ struct ContentView: View {
             }.onAppear{
                 printAllUsers()
                 
+                QuestionService.deleteAllQuestions(context: modelContext)
                 QuestionService.generateDefaultQuestions(context: modelContext)
                 
             }.onChange(of: currentScreen){

@@ -26,22 +26,46 @@ class QuestionService{
             }
             
             let q1 = QuestionModel(
-                questionText: "Was ist die Hauptstadt von Deutschland?",
-                options: ["München", "Hamburg", "Berlin", "Köln"],
-                correctAnswer: "Berlin",
-                category: "Geografie"
+                questionText: "Welches Bauteil gilt als das Gehirn eines Computers und führt Berechnungen durch?",
+                options: ["Festplatte", "RAM", "CPU (Prozessor)", "Grafikkarte"],
+                correctAnswer: "CPU (Prozessor)",
+                category: "Computer"
             )
             
             let q2 = QuestionModel(
-                questionText: "Wie viele Beine hat eine Spinne?",
-                options: ["6", "8", "4", "10"],
-                correctAnswer: "8",
-                category: "Biologie"
+                questionText: "Wofür steht die Abkürzung RAM?",
+                options: ["Read Access Memory", "Random Access Memory", "Run All Memory", "Real Active Memory"],
+                correctAnswer: "Random Access Memory",
+                category: "Computer"
+            )
+            
+            let q3 = QuestionModel(
+                questionText: "Was ist KEIN Eingabegerät?",
+                options: ["Maus", "Tastatur", "Monitor", "Mikrofon"],
+                correctAnswer: "Monitor",
+                category: "Computer"
+            )
+            
+            let q4 = QuestionModel(
+                questionText: "Aus welchen Ziffern besteht der Binärcode?",
+                options: ["1 und 2", "0 und 1", "0 bis 9", "Nur 1"],
+                correctAnswer: "0 und 1",
+                category: "Computer"
+            )
+            
+            let q5 = QuestionModel(
+                questionText: "Was ist die Hauptaufgabe einer IP-Adresse?",
+                options: ["Sie speichert Passwörter", "Sie identifiziert Geräte im Netzwerk", "Sie macht das Internet schneller", "Sie schützt vor Viren"],
+                correctAnswer: "Sie identifiziert Geräte im Netzwerk",
+                category: "Computer"
             )
             
             
             context.insert(q1)
             context.insert(q2)
+            context.insert(q3)
+            context.insert(q4)
+            context.insert(q5)
             
             try context.save()
             print("Fragen erfolgreich gespeichert!")
@@ -68,6 +92,36 @@ class QuestionService{
         }
     }
     
+    
+    // In QuestionService.swift
+    
+    static func deleteAllQuestions(context: ModelContext) {
+        do {
+            // 1. Wir definieren, was wir suchen (Alle QuestionModels)
+            let descriptor = FetchDescriptor<QuestionModel>()
+            
+            // 2. Wir holen die Liste aller Fragen
+            let allQuestions = try context.fetch(descriptor)
+            
+            // 3. Sicherheitscheck: Wenn nichts da ist, hören wir auf
+            if allQuestions.isEmpty {
+                print("Datenbank ist bereits leer.")
+                return
+            }
+            
+            // 4. Schleife durch alle Fragen und jede einzelne löschen
+            for question in allQuestions {
+                context.delete(question)
+            }
+            
+            // 5. Wichtig: Die Löschung dauerhaft speichern
+            try context.save()
+            print("Erfolgreich \(allQuestions.count) Fragen gelöscht.")
+            
+        } catch {
+            print("Fehler beim Löschen der Fragen: \(error)")
+        }
+    }
     
 }
 
