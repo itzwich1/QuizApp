@@ -13,7 +13,8 @@ struct QuizAppApp: App {
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
             Item.self,
-            UserModel.self //User Model registrieren
+            UserModel.self, //User Model registrieren
+            QuestionModel.self //Question Model registrieren
         ])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
 

@@ -47,6 +47,9 @@ struct ContentView: View {
                 }
             }.onAppear{
                 printAllUsers()
+                
+                QuestionService.generateDefaultQuestions(context: modelContext)
+                
             }.onChange(of: currentScreen){
                 oldValue, newValue in
                 

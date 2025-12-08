@@ -16,8 +16,6 @@ struct DashboardView: View {
         
         VStack{
             
-            
-            
             ScoreView(correctCount: 10, wrongCount: 4).padding(.bottom,40)
             
             Spacer()
@@ -25,6 +23,10 @@ struct DashboardView: View {
             // Ihre Buttons...
             Button("Quiz Starten") { /* ... */ }
                 .padding()
+                .frame(maxWidth: 200)
+                .background(Color.white)
+                .foregroundColor(.blue)
+                .cornerRadius(10)
             
         }
         
