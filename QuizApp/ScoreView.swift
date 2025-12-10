@@ -6,11 +6,21 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct ScoreView: View {
-    // Diese Werte übergeben Sie später von außen (z.B. aus der Datenbank)
-    var correctCount: Int
-    var wrongCount: Int
+    
+    @Query private var scores: [ScoreModel]
+    
+    
+    private var score: ScoreModel {
+            if let existingScore = scores.first {
+                return existingScore
+            } else {
+                // Fallback: Ein leeres Model anzeigen, falls die DB leer ist (damit die App nicht abstürzt)
+                return ScoreModel(wrongAnswers: 0, correctAnswers: 0)
+            }
+        }
     
     var body: some View {
         VStack(spacing: 20) {
@@ -26,7 +36,7 @@ struct ScoreView: View {
                     .font(.headline)
                     .foregroundColor(.gray)
                 
-                Text("\(correctCount)")
+                Text("\(score.correctAnswers)")
                     .font(.system(size: 30, weight: .bold))
                     .foregroundColor(.green)
             }
@@ -42,7 +52,7 @@ struct ScoreView: View {
                     .font(.headline)
                     .foregroundColor(.gray)
                 
-                Text("\(wrongCount)")
+                Text("\(score.correctAnswers)")
                     .font(.system(size: 30, weight: .bold))
                     .foregroundColor(.red)
             }

@@ -20,9 +20,11 @@ class QuizViewModel: ObservableObject {
     
     // --- ZUSTANDSVARIABLEN (STATE) ---
     @Published var currentQuestion: QuestionModel?
-    @Published var score: Int = 0
     @Published var questionNumber: Int = 1
     @Published var isGameOver: Bool = false
+    
+    @Published var sessionCorrectAnswers = 0
+    @Published var sessionWrongAnswers = 0
     
     // Um Feedback zu geben (Button grün/rot färben)
     @Published var selectedAnswer: String? = nil
@@ -47,8 +49,9 @@ class QuizViewModel: ObservableObject {
             // Wir mischen (.shuffled) und nehmen z.B. nur die ersten 10 (.prefix)
             self.questions = Array(allQuestions.shuffled().prefix(10))
             
-            // Reset aller Werte
-            self.score = 0
+            self.sessionCorrectAnswers = 0
+            self.sessionWrongAnswers = 0
+            
             self.currentIndex = 0
             self.questionNumber = 1
             self.isGameOver = false
@@ -68,12 +71,14 @@ class QuizViewModel: ObservableObject {
     func selectAnswer(_ answer: String) {
         guard let question = currentQuestion, selectedAnswer == nil else { return } // Verhindert Mehrfachklicks
         
+        
         selectedAnswer = answer
         
         if answer == question.correctAnswer {
-            score += 1
+            sessionCorrectAnswers += 1
             isCorrect = true
         } else {
+            sessionWrongAnswers += 1
             isCorrect = false
         }
         
@@ -99,6 +104,17 @@ class QuizViewModel: ObservableObject {
             // Keine Fragen mehr -> Spielende
             isGameOver = true
         }
+    }
+    
+    func saveFinalScore(context: ModelContext) {
+        // Erstelle das ScoreModel mit den gesammelten Werten
+        let finalScore = ScoreModel(
+            wrongAnswers: sessionWrongAnswers,
+            correctAnswers: sessionCorrectAnswers
+        )
+        
+        // Jetzt 1x sauber speichern
+        _ = ScoreService.saveScore(score: finalScore, context: context)
     }
 }
 

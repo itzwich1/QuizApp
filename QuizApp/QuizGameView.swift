@@ -23,10 +23,13 @@ struct QuizGameView: View {
             
             if viewModel.isGameOver {
                 // --- END SCREEN ---
-                GameResultView(score: viewModel.score, total: 10, onRestart: {
+                GameResultView(score: viewModel.sessionCorrectAnswers, total: 10, onRestart: {
                     viewModel.startQuiz(context: modelContext)
                 }, onClose: {
                     dismiss()
+                    withAnimation {
+                        currentScreen = .dashboard
+                    }
                 })
                 
             } else if let question = viewModel.currentQuestion {
@@ -39,7 +42,7 @@ struct QuizGameView: View {
                         .bold()
                         .foregroundColor(.gray)
                     Spacer()
-                    Text("Punkte: \(viewModel.score)")
+                    Text("Punkte: \(viewModel.sessionCorrectAnswers)")
                         .bold()
                         .foregroundColor(.blue)
                 }
@@ -53,6 +56,7 @@ struct QuizGameView: View {
                     .bold()
                     .multilineTextAlignment(.center)
                     .padding()
+                    .frame(maxWidth: 380)
                     // Animations-Effekt beim Wechsel
                     .id("QuestionText" + question.questionText)
                 
@@ -78,6 +82,7 @@ struct QuizGameView: View {
                         }
                         // Button deaktivieren, wenn schon eine Antwort gewählt wurde
                         .disabled(viewModel.selectedAnswer != nil)
+                        .frame(maxWidth: 380)
                     }
                 }
                 .padding()
@@ -123,6 +128,8 @@ struct GameResultView: View {
     let total: Int
     let onRestart: () -> Void
     let onClose: () -> Void
+    
+    
     
     var body: some View {
         VStack(spacing: 20) {

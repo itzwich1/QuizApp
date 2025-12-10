@@ -18,7 +18,7 @@ struct DashboardView: View {
         
         VStack{
             
-            ScoreView(correctCount: 10, wrongCount: 4).padding(.bottom,40)
+            ScoreView().padding(.bottom,40)
             
             Spacer()
             
