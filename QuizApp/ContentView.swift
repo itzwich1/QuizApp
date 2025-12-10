@@ -13,6 +13,7 @@ enum AppScreen {
     case login
     case registration
     case dashboard
+    case quiz
 }
 struct ContentView: View {
     
@@ -44,6 +45,8 @@ struct ContentView: View {
                     RegistrationView(currentScreen: $currentScreen)
                 case .dashboard:
                     DashboardView(currentScreen: $currentScreen)
+                case .quiz:
+                    QuizGameView(currentScreen: $currentScreen)
                 }
             }.onAppear{
                 printAllUsers()
@@ -85,9 +88,6 @@ struct ContentView: View {
             print("Fehler beim Abrufen der SwiftData-Daten: \(error)")
         }
     }
-    
-    /////////////////
-    
 }
 
 #Preview {

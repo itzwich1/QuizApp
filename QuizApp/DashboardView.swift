@@ -12,6 +12,8 @@ struct DashboardView: View {
     
     @Binding var currentScreen: AppScreen
     
+    @State private var showQuiz = false
+    
     var body: some View {
         
         VStack{
@@ -21,7 +23,13 @@ struct DashboardView: View {
             Spacer()
             
             // Ihre Buttons...
-            Button("Quiz Starten") { /* ... */ }
+            Button("Quiz Starten") {
+                
+                withAnimation {
+                    currentScreen = .quiz
+                }
+                
+            }
                 .padding()
                 .frame(maxWidth: 200)
                 .background(Color.white)

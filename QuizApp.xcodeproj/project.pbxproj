@@ -11,7 +11,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		E55A1DFD2EDF443500FA9EF4 /* QuizApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = QuizApp.app; path = "/Users/felixwich/Documents/Swift Projekte Felix/QuizApp/build/Debug-iphoneos/QuizApp.app"; sourceTree = "<absolute>"; };
+		E59FDBC12EE88C9F008BAF62 /* QuizApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QuizApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -38,6 +38,7 @@
 			isa = PBXGroup;
 			children = (
 				E55A1DFF2EDF443500FA9EF4 /* QuizApp */,
+				E59FDBC12EE88C9F008BAF62 /* QuizApp.app */,
 			);
 			sourceTree = "<group>";
 		};
@@ -64,7 +65,7 @@
 				E55A1E222EE0843700FA9EF4 /* SwiftKeychainWrapper */,
 			);
 			productName = QuizApp;
-			productReference = E55A1DFD2EDF443500FA9EF4 /* QuizApp.app */;
+			productReference = E59FDBC12EE88C9F008BAF62 /* QuizApp.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
