@@ -49,20 +49,39 @@ struct ContentView: View {
                     QuizGameView(currentScreen: $currentScreen)
                 }
             }.onAppear{
-                printAllUsers()
+                //printAllUsers()
                 
-                QuestionService.deleteAllQuestions(context: modelContext)
-                QuestionService.generateDefaultQuestions(context: modelContext)
+                
+                //printAllScores()
+                //QuestionService.deleteAllQuestions(context: modelContext)
+                //QuestionService.generateDefaultQuestions(context: modelContext)
                 
             }.onChange(of: currentScreen){
                 oldValue, newValue in
                 
-                print("Screen gewechselt: Lade Benutzer neu...")
-                printAllUsers()
+                //printAllScores()
+                //print("Screen gewechselt: Lade Benutzer neu...")
+                //printAllUsers()
             }
         }
         
     }
+    
+    func printAllScores(){
+        
+        let scores = FetchDescriptor<ScoreModel>()
+        do{
+            
+            let fetchScores = try modelContext.fetch(scores)
+            for score in fetchScores {
+                // Wichtig: Geben Sie NICHT das echte Passwort oder den Hash aus!
+                print("  -> Falsch: \(score.wrongAnswers), Richtig: \(score.correctAnswers)...")
+            }
+        } catch {
+            print("Fehler beim Abrufen der SwiftData-Daten: \(error)")
+        }
+    }
+    
     
     
     func printAllUsers() {

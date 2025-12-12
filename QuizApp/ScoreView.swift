@@ -12,15 +12,24 @@ struct ScoreView: View {
     
     @Query private var scores: [ScoreModel]
     
+    //Erfolgsquote ausrechnen
+    var quote: Double {
+        if score.wrongAnswers <= 0 {
+            return Double(score.correctAnswers)
+        } else {
+            return Double(score.correctAnswers) / Double(score.wrongAnswers)
+        }
+    }
+    
     
     private var score: ScoreModel {
-            if let existingScore = scores.first {
-                return existingScore
-            } else {
-                // Fallback: Ein leeres Model anzeigen, falls die DB leer ist (damit die App nicht abstürzt)
-                return ScoreModel(wrongAnswers: 0, correctAnswers: 0)
-            }
+        if let existingScore = scores.first {
+            return existingScore
+        } else {
+            // Fallback: Ein leeres Model anzeigen, falls die DB leer ist (damit die App nicht abstürzt)
+            return ScoreModel(wrongAnswers: 0, correctAnswers: 0)
         }
+    }
     
     var body: some View {
         VStack(spacing: 20) {
@@ -30,7 +39,6 @@ struct ScoreView: View {
                 .bold()
                 .padding(.horizontal).foregroundColor(.white)
             
-            // --- LINKES FELD: RICHTIG ---
             VStack {
                 Text("Richtig")
                     .font(.headline)
@@ -46,15 +54,30 @@ struct ScoreView: View {
             .cornerRadius(12)
             .shadow(color: .black.opacity(0.1), radius: 4, x: 0, y: 2)
             
-            // --- RECHTES FELD: FALSCH ---
             VStack {
                 Text("Falsch")
                     .font(.headline)
                     .foregroundColor(.gray)
                 
-                Text("\(score.correctAnswers)")
+                Text("\(score.wrongAnswers)")
                     .font(.system(size: 30, weight: .bold))
                     .foregroundColor(.red)
+            }
+            .padding()
+            .frame(maxWidth: 380)
+            .background(Color.white)
+            .cornerRadius(12)
+            .shadow(color: .black.opacity(0.1), radius: 4, x: 0, y: 2)
+            
+            VStack {
+                
+                Text("Erfolgsquote")
+                    .font(.headline)
+                    .foregroundColor(.gray)
+                
+                Text("\(String(format: "%.2f", quote))")
+                    .font(.system(size: 30, weight: .bold))
+                    .foregroundColor(.black)
             }
             .padding()
             .frame(maxWidth: 380)

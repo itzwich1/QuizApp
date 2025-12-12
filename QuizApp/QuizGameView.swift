@@ -27,6 +27,7 @@ struct QuizGameView: View {
                     viewModel.startQuiz(context: modelContext)
                 }, onClose: {
                     dismiss()
+                    viewModel.saveFinalScore(context: modelContext)
                     withAnimation {
                         currentScreen = .dashboard
                     }

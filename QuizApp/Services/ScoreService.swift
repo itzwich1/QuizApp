@@ -13,6 +13,9 @@ class ScoreService{
     
     static func saveScore(score: ScoreModel, context: ModelContext) -> Bool{
         
+        print(score.wrongAnswers)
+        print(score.correctAnswers)
+        
         context.insert(score)
         
         do {

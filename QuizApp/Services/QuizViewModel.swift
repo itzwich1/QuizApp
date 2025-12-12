@@ -107,14 +107,34 @@ class QuizViewModel: ObservableObject {
     }
     
     func saveFinalScore(context: ModelContext) {
-        // Erstelle das ScoreModel mit den gesammelten Werten
-        let finalScore = ScoreModel(
-            wrongAnswers: sessionWrongAnswers,
-            correctAnswers: sessionCorrectAnswers
-        )
         
-        // Jetzt 1x sauber speichern
-        _ = ScoreService.saveScore(score: finalScore, context: context)
+        // 1. Wir schauen erst nach, ob es schon einen Eintrag gibt
+        let descriptor = FetchDescriptor<ScoreModel>()
+        
+        do {
+            let results = try context.fetch(descriptor)
+            
+            if let existingScore = results.first {
+                
+                existingScore.correctAnswers += sessionCorrectAnswers
+                existingScore.wrongAnswers += sessionWrongAnswers
+                
+                
+            } else {
+                
+                let newScore = ScoreModel(
+                    wrongAnswers: sessionWrongAnswers,
+                    correctAnswers: sessionCorrectAnswers
+                )
+                context.insert(newScore)
+            }
+            
+            try context.save()
+            print("Speichern erfolgreich!")
+            
+        } catch {
+            print("CRITICAL ERROR beim Speichern: \(error)")
+        }
     }
 }
 
