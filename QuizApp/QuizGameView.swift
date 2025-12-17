@@ -35,8 +35,6 @@ struct QuizGameView: View {
                 
             } else if let question = viewModel.currentQuestion {
                 
-                // --- QUIZ SCREEN ---
-                
                 // Header (Frage X von Y - Score)
                 HStack {
                     Text("Frage \(viewModel.questionNumber)")
