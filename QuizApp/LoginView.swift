@@ -11,10 +11,10 @@ import SwiftData
 
 
 struct LoginView: View {
-    @Environment(\.modelContext) var modelContext
+
     @Binding var currentScreen: AppScreen
     
-    
+    @Environment(\.modelContext) var modelContext
     
     // Variablen für die Eingabefelder
     @State private var username: String = ""
@@ -46,15 +46,14 @@ struct LoginView: View {
                 if authService.verifyLogin(username: username, passwordText: password, context: modelContext) {
                     loginMessage = "Login erfolgreich! Weiterleitung..."
                     
-                    // Bei Erfolg: Weiter zur Haupt-App-Seite
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                        withAnimation{currentScreen = .dashboard}
+                        withAnimation{
+                            currentScreen = .dashboard
+                        }
                     }
                 } else {
                     loginMessage = "Anmeldedaten falsch. Bitte erneut versuchen."
                 }
-                
-                
             }
             .padding()
             .frame(maxWidth: 380) // Button über die gesamte Breite der Felder

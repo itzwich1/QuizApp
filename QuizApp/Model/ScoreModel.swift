@@ -18,6 +18,4 @@ final class ScoreModel{
         self.wrongAnswers = wrongAnswers
         self.correctAnswers = correctAnswers
     }
-    
-    
 }

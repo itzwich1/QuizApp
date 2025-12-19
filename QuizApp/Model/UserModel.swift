@@ -11,7 +11,6 @@ import Foundation
 @Model
 final class UserModel{
     
-    //Jeder Benutzer darf nur einmal existieren
     @Attribute(.unique) var username: String
     
     var passwordHash: String
@@ -20,6 +19,4 @@ final class UserModel{
         self.username = username
         self.passwordHash = passwordHash
     }
-    
-    
 }

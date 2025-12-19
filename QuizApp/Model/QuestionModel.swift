@@ -25,5 +25,4 @@ final class QuestionModel{
         self.correctAnswer = correctAnswer
         self.category = category
     }
-    
 }

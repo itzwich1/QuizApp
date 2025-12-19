@@ -40,7 +40,6 @@ struct RegistrationView: View {
                 .background(Color.white.opacity(0.8))
                 .cornerRadius(8)
             
-            // Anmelde-Button
             Button("Registrieren") {
                 
                 if(!username.isEmpty && !password.isEmpty){
@@ -58,9 +57,6 @@ struct RegistrationView: View {
                 }else {
                     registrationMessage = "Error: Benutzername und Passwort \n dürfen nicht leer sein!"
                 }
-                
-
-                
             }
             .padding()
             .frame(maxWidth: 380) // Button über die gesamte Breite der Felder

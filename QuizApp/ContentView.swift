@@ -17,9 +17,11 @@ enum AppScreen {
 }
 struct ContentView: View {
     
+    @State private var currentScreen: AppScreen = .home
+    
     @Environment(\.modelContext) private var modelContext
     
-    @State private var currentScreen: AppScreen = .home
+    
     
     let backgroundAssetName = "Hintergrund"
     
@@ -28,7 +30,6 @@ struct ContentView: View {
         
         ZStack {
             
-            // --- DAUERHAFTER HINTERGRUND ---
             Image(backgroundAssetName)
                 .resizable()
                 .aspectRatio(contentMode: .fill)
