@@ -19,6 +19,8 @@ struct ContentView: View {
     
     @State private var currentScreen: AppScreen = .home
     
+    @State private var selectedCategory: QuestionCategory = .computer
+    
     @Environment(\.modelContext) private var modelContext
     
     
@@ -45,9 +47,9 @@ struct ContentView: View {
                 case .registration:
                     RegistrationView(currentScreen: $currentScreen)
                 case .dashboard:
-                    DashboardView(currentScreen: $currentScreen)
+                    DashboardView(currentScreen: $currentScreen, selectedCategory: $selectedCategory)
                 case .quiz:
-                    QuizGameView(currentScreen: $currentScreen)
+                    QuizGameView(currentScreen: $currentScreen, category: selectedCategory)
                 }
             }.onAppear{
                 //printAllUsers()
@@ -55,7 +57,7 @@ struct ContentView: View {
                 
                 //printAllScores()
                 //QuestionService.deleteAllQuestions(context: modelContext)
-                //QuestionService.generateDefaultQuestions(context: modelContext)
+                QuestionService.generateDefaultQuestions(context: modelContext)
                 
             }.onChange(of: currentScreen){
                 oldValue, newValue in

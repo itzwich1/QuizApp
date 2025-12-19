@@ -8,6 +8,11 @@
 import SwiftData
 import Foundation
 
+enum QuestionCategory: String, CaseIterable, Codable {
+    case computer = "Computer"
+    case mathe = "Mathe"
+}
+
 @Model
 final class QuestionModel{
     
@@ -16,13 +21,20 @@ final class QuestionModel{
     var questionText: String
     var options: [String]
     var correctAnswer: String
-    var category: String
+    var categoryStr: String
     
-    init(questionText: String, options: [String], correctAnswer: String, category: String) {
+    
+    @Transient
+    var category: QuestionCategory {
+        get { QuestionCategory(rawValue: categoryStr) ?? .computer }
+        set { categoryStr = newValue.rawValue }
+    }
+    
+    init(questionText: String, options: [String], correctAnswer: String, category: QuestionCategory) {
         self.id = UUID()
         self.questionText = questionText
         self.options = options
         self.correctAnswer = correctAnswer
-        self.category = category
+        self.categoryStr = category.rawValue
     }
 }

@@ -15,6 +15,8 @@ struct QuizGameView: View {
     
     @Binding var currentScreen: AppScreen
     
+    var category: QuestionCategory
+    
     // Das ViewModel als StateObject einbinden
     @StateObject private var viewModel = QuizViewModel()
     
@@ -24,7 +26,7 @@ struct QuizGameView: View {
             if viewModel.isGameOver {
                 // --- END SCREEN ---
                 GameResultView(score: viewModel.sessionCorrectAnswers, total: 10, onRestart: {
-                    viewModel.startQuiz(context: modelContext)
+                    viewModel.startQuiz(context: modelContext, category: category)
                 }, onClose: {
                     dismiss()
                     viewModel.saveFinalScore(context: modelContext)
@@ -56,7 +58,7 @@ struct QuizGameView: View {
                     .multilineTextAlignment(.center)
                     .padding()
                     .frame(maxWidth: 380)
-                    // Animations-Effekt beim Wechsel
+                // Animations-Effekt beim Wechsel
                     .id("QuestionText" + question.questionText)
                 
                 Spacer()
@@ -90,13 +92,16 @@ struct QuizGameView: View {
                 
             } else {
                 // Ladezustand oder Fehler (keine Fragen da)
-                ContentUnavailableView("Keine Fragen gefunden", systemImage: "exclamationmark.triangle", description: Text("Bitte füge erst Fragen in der Datenbank hinzu."))
-                Button("Zurück") { dismiss() }
+                ContentUnavailableView("Keine Fragen gefunden", systemImage: "exclamationmark.triangle", description: Text("Bitte füge erst Fragen in der Datenbank hinzu.")).foregroundStyle(.white)
+                Button("Zurück") { dismiss()
+                    withAnimation {
+                        currentScreen = .dashboard
+                    }}.foregroundColor(.white)
             }
         }
         .onAppear {
             // Startet das Quiz, sobald die View sichtbar wird
-            viewModel.startQuiz(context: modelContext)
+            viewModel.startQuiz(context: modelContext, category: category)
         }
     }
     
@@ -113,7 +118,7 @@ struct QuizGameView: View {
         
         // Optional: Zeige immer die richtige Antwort an (in Grün), auch wenn man falsch lag
         if let currentQ = viewModel.currentQuestion, option == currentQ.correctAnswer {
-             return .green.opacity(0.6) // Leicht transparent
+            return .green.opacity(0.6) // Leicht transparent
         }
         
         // Alle anderen Buttons grau machen

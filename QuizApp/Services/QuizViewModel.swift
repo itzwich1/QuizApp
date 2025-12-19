@@ -37,13 +37,22 @@ class QuizViewModel: ObservableObject {
     // --- FUNKTIONEN ---
     
     // 1. Spiel starten: Fragen holen und mischen
-    func startQuiz(context: ModelContext) {
+    func startQuiz(context: ModelContext, category: QuestionCategory) {
         do {
-            // Wir holen ALLE Fragen
-            let descriptor = FetchDescriptor<QuestionModel>()
+            
+            let serachString = category.rawValue
+            
+            let predicate = #Predicate<QuestionModel> { question in
+                question.categoryStr == serachString
+            }
+            
+            let descriptor = FetchDescriptor<QuestionModel>(predicate: predicate)
             let allQuestions = try context.fetch(descriptor)
             
-            if allQuestions.isEmpty { return }
+            //let descriptor = FetchDescriptor<QuestionModel>()
+            //let allQuestions = try context.fetch(descriptor)
+            
+            //if allQuestions.isEmpty { return }
             
             // WICHTIG: Hier passiert der Zufall!
             // Wir mischen (.shuffled) und nehmen z.B. nur die ersten 10 (.prefix)
@@ -107,7 +116,7 @@ class QuizViewModel: ObservableObject {
     }
     
     func saveFinalScore(context: ModelContext) {
-
+        
         ScoreService.updateScore(
             newCorrect: sessionCorrectAnswers,
             newWrong: sessionWrongAnswers,

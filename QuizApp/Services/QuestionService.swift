@@ -29,35 +29,42 @@ class QuestionService{
                 questionText: "Welches Bauteil gilt als das Gehirn eines Computers und führt Berechnungen durch?",
                 options: ["Festplatte", "RAM", "CPU (Prozessor)", "Grafikkarte"],
                 correctAnswer: "CPU (Prozessor)",
-                category: "Computer"
+                category: .computer
             )
             
             let q2 = QuestionModel(
                 questionText: "Wofür steht die Abkürzung RAM?",
                 options: ["Read Access Memory", "Random Access Memory", "Run All Memory", "Real Active Memory"],
                 correctAnswer: "Random Access Memory",
-                category: "Computer"
+                category: .computer
             )
             
             let q3 = QuestionModel(
                 questionText: "Was ist KEIN Eingabegerät?",
                 options: ["Maus", "Tastatur", "Monitor", "Mikrofon"],
                 correctAnswer: "Monitor",
-                category: "Computer"
+                category: .computer
             )
             
             let q4 = QuestionModel(
                 questionText: "Aus welchen Ziffern besteht der Binärcode?",
                 options: ["1 und 2", "0 und 1", "0 bis 9", "Nur 1"],
                 correctAnswer: "0 und 1",
-                category: "Computer"
+                category: .computer
             )
             
             let q5 = QuestionModel(
                 questionText: "Was ist die Hauptaufgabe einer IP-Adresse?",
                 options: ["Sie speichert Passwörter", "Sie identifiziert Geräte im Netzwerk", "Sie macht das Internet schneller", "Sie schützt vor Viren"],
                 correctAnswer: "Sie identifiziert Geräte im Netzwerk",
-                category: "Computer"
+                category: .computer
+            )
+            
+            let q6 = QuestionModel(
+                questionText: "Was ist 3 + 4?",
+                options: ["6", "7", "10", "2"],
+                correctAnswer: "7",
+                category: .mathe
             )
             
             
@@ -66,6 +73,7 @@ class QuestionService{
             context.insert(q3)
             context.insert(q4)
             context.insert(q5)
+            context.insert(q6)
             
             try context.save()
             print("Fragen erfolgreich gespeichert!")
