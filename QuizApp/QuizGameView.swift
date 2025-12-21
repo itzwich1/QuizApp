@@ -24,20 +24,19 @@ struct QuizGameView: View {
         VStack {
             
             if viewModel.isGameOver {
-                // --- END SCREEN ---
-                GameResultView(score: viewModel.sessionCorrectAnswers, total: 10, onRestart: {
-                    viewModel.startQuiz(context: modelContext, category: category)
-                }, onClose: {
-                    dismiss()
-                    viewModel.saveFinalScore(context: modelContext)
-                    withAnimation {
-                        currentScreen = .dashboard
-                    }
-                })
+                GameResultView(
+                    score: viewModel.sessionCorrectAnswers,
+                    total: 10,
+                    onClose: {
+                        dismiss()
+                        viewModel.saveFinalScore(context: modelContext)
+                        withAnimation {
+                            currentScreen = .dashboard
+                        }
+                    })
                 
             } else if let question = viewModel.currentQuestion {
                 
-                // Header (Frage X von Y - Score)
                 HStack {
                     Text("Frage \(viewModel.questionNumber)")
                         .bold()
@@ -51,20 +50,19 @@ struct QuizGameView: View {
                 
                 Spacer()
                 
-                // Die Frage
+                // Frage
                 Text(question.questionText)
                     .font(.title2)
                     .bold()
                     .multilineTextAlignment(.center)
                     .padding()
                     .frame(maxWidth: 380)
-                // Animations-Effekt beim Wechsel
+                    .foregroundColor(.white)
                     .id("QuestionText" + question.questionText)
                 
                 Spacer()
                 
-                // Die Antwort-Buttons
-                // Tipp: Auch die Optionen mischen wir hier, damit "Antwort A" nicht immer oben ist!
+                // Antwortmoeglichkeiten
                 VStack(spacing: 12) {
                     ForEach(question.options.shuffled(), id: \.self) { option in
                         Button(action: {
@@ -81,7 +79,7 @@ struct QuizGameView: View {
                                 .foregroundColor(.white)
                                 .cornerRadius(12)
                         }
-                        // Button deaktivieren, wenn schon eine Antwort gewählt wurde
+                        // Button deaktivieren, wenn schon eine Antwort gewaehlt wurde
                         .disabled(viewModel.selectedAnswer != nil)
                         .frame(maxWidth: 380)
                     }
@@ -91,7 +89,7 @@ struct QuizGameView: View {
                 Spacer()
                 
             } else {
-                // Ladezustand oder Fehler (keine Fragen da)
+                
                 ContentUnavailableView("Keine Fragen gefunden", systemImage: "exclamationmark.triangle", description: Text("Bitte füge erst Fragen in der Datenbank hinzu.")).foregroundStyle(.white)
                 Button("Zurück") { dismiss()
                     withAnimation {
@@ -130,7 +128,6 @@ struct QuizGameView: View {
 struct GameResultView: View {
     let score: Int
     let total: Int
-    let onRestart: () -> Void
     let onClose: () -> Void
     
     
@@ -143,17 +140,14 @@ struct GameResultView: View {
             
             Text("Quiz beendet!")
                 .font(.largeTitle)
-                .bold()
+                .bold().foregroundColor(.white)
             
             Text("Du hast \(score) Punkte erreicht.")
-                .font(.title2)
+                .font(.title2).foregroundColor(.white)
             
             HStack(spacing: 20) {
                 Button("Beenden", action: onClose)
                     .buttonStyle(.bordered)
-                
-                Button("Neustart", action: onRestart)
-                    .buttonStyle(.borderedProminent)
             }
             .padding(.top)
         }

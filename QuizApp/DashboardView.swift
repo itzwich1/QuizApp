@@ -40,19 +40,35 @@ struct DashboardView: View {
             }
             .padding()
             
-            // Ihre Buttons...
-            Button("Quiz Starten") {
+            HStack{
                 
-                withAnimation {
-                    currentScreen = .quiz
+                Button("Logout"){
+                    
+                    withAnimation{
+                        currentScreen = .home
+                    }
+                }.padding()
+                    .frame(maxWidth: 150)
+                    .background(Color.white)
+                    .foregroundColor(.blue)
+                    .cornerRadius(10)
+                
+                // Ihre Buttons...
+                Button("Quiz Starten") {
+                    
+                    withAnimation {
+                        currentScreen = .quiz
+                    }
+                    
                 }
-                
+                .padding()
+                .frame(maxWidth: 150)
+                .background(Color.white)
+                .foregroundColor(.blue)
+                .cornerRadius(10)
             }
-            .padding()
-            .frame(maxWidth: 200)
-            .background(Color.white)
-            .foregroundColor(.blue)
-            .cornerRadius(10)
+            
+            
             
         }
         
